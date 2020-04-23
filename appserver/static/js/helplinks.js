@@ -9,17 +9,7 @@ document.addEventListener("DOMNodeInserted", function (event) {
     }
 }, false);
 
-// function setValue(val1) {
-//     console.log(val1);
-//     // var element = document.getElementById('additional_parameters-access_token');
-//     // element.value = val1;
-//     // element.innerHTML = val1;
-//     $('#additional_parameters-access_token').val(val1);
-// }
-
 function clickEvent(url) {
-    var redirect_uri = window.location.href.split('app')[0] + 'static/app/TA-splunk-add-on-for-slack/html/index.html';
-    url += '&redirect_uri=' + redirect_uri;
     console.log("Clicked URL : " + url);
     window.open(url, 'popup', 'width=700,height=700');
     return false;

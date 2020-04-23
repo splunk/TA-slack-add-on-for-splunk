@@ -47,8 +47,8 @@ class ModInputslack_audit_logs(modinput_wrapper.base_modinput.BaseModInput):
         For other input types, arguments should be get from input_module. Defining new input types could be easier.
         """
         scheme.add_argument(smi.Argument("start_time", title="Start Time",
-                                         description="",
-                                         required_on_create=False,
+                                         description="Enter the start time in the format yyyy-mm-dd hh:mm:ss",
+                                         required_on_create=True,
                                          required_on_edit=False))
         scheme.add_argument(smi.Argument("access_token", title="Access Token",
                                          description="Generate & Paste Access Token https://slack.com/oauth/v2/authorize?client_id=1016219254245.1020659582432&scope=incoming-webhook&user_scope=auditlogs:read",
