@@ -9,13 +9,13 @@
     },
     "author": [
       {
-        "name": "",
+        "name": "Karthika Krishnan",
         "email": null,
         "company": null
       }
     ],
     "releaseDate": null,
-    "description": "",
+    "description": "Splunk Technical Add on to retrieve Slack Audit Logs",
     "classification": {
       "intendedAudience": null,
       "categories": [],
