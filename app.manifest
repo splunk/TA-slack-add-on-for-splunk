@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0.0",
   "info": {
-    "title": "Splunk Add on for Slack",
+    "title": "Slack Add-on for Splunk",
     "id": {
       "group": null,
-      "name": "TA-splunk-add-on-for-slack",
-      "version": "1.0.1"
+      "name": "TA-slack-add-on-for-splunk",
+      "version": "1.0.2"
     },
     "author": [
       {

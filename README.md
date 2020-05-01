@@ -1,6 +1,6 @@
-# Splunk Add on for Slack
+# Slack Add-on for Splunk
 
-> The **Splunk Add on for Slack** uses the _Slack Audit Logs API_ to fetch Slack Enterprise Grid Audit Logs into Splunk.
+> The **Slack Add-on for Splunk** uses the _Slack Audit Logs API_ to fetch Slack Enterprise Grid Audit Logs into Splunk.
 
 ## Getting Started
 The Audit Logs API is for monitoring the audit events happening in an Enterprise Grid organization to ensure continued compliance, to safeguard against any inappropriate system access, and to allow you to audit suspicious behavior within your enterprise.

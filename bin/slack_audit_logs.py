@@ -1,4 +1,4 @@
-import ta_splunk_add_on_for_slack_declare
+import ta_slack_add_on_for_splunk_declare
 
 import os
 import sys
@@ -27,7 +27,7 @@ class ModInputslack_audit_logs(modinput_wrapper.base_modinput.BaseModInput):
             use_single_instance = input_module.use_single_instance_mode()
         else:
             use_single_instance = False
-        super(ModInputslack_audit_logs, self).__init__("ta_splunk_add_on_for_slack", "slack_audit_logs", use_single_instance)
+        super(ModInputslack_audit_logs, self).__init__("ta_slack_add_on_for_splunk", "slack_audit_logs", use_single_instance)
         self.global_checkbox_fields = None
 
     def get_scheme(self):
@@ -57,7 +57,7 @@ class ModInputslack_audit_logs(modinput_wrapper.base_modinput.BaseModInput):
         return scheme
 
     def get_app_name(self):
-        return "TA-splunk-add-on-for-slack"
+        return "TA-slack-add-on-for-splunk"
 
     def validate_input(self, definition):
         """validate the input stanza"""
