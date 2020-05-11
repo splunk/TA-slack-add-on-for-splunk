@@ -245,6 +245,7 @@
                             "label": "Index",
                             "type": "singleSelect",
                             "defaultValue": "default",
+                            "help": "Set to slack_audit. If unavailable in the list, create a new index with the name slack_audit and set index to it.",
                             "options": {
                                 "endpointUrl": "data/indexes",
                                 "blackList": "^_.*$",
