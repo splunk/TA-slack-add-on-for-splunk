@@ -86,7 +86,7 @@ def make_request(helper, base_url, epoch_time, opt_access_token, INPUT_STANZA_NA
               'Accept': 'application/json',
               'Authorization': 'Bearer ' + opt_access_token
               }
-    helper.log_info("{} - Request sent to url : {}, header : {}, proxy info : {}".format(INPUT_STANZA_NAME, base_url, header, get_proxy(helper)))
+    helper.log_info("{} - Request sent to url : {}, proxy info : {}".format(INPUT_STANZA_NAME, base_url, get_proxy(helper)))
     r = requests.get(base_url, headers=header, proxies=get_proxy(helper))
     return r
 
@@ -102,7 +102,7 @@ def handle_audit_logs(helper, auditlogs, epoch_time, max_auditDateTime, check_po
             if(this_auditDateTime > max_auditDateTime):
                 max_auditDateTime = this_auditDateTime
             e = helper.new_event(source=helper.get_input_type(), index=helper.get_output_index(
-            ), sourcetype=helper.get_sourcetype(), data=json.dumps(entry))
+            ), sourcetype=helper.get_sourcetype(), data=json.dumps(entry), time=entry.get('date_create'))
             ew.write_event(e)
         return max_auditDateTime
 

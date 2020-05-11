@@ -37,7 +37,7 @@ fields = [
         'start_time',
         required=True,
         encrypted=False,
-        default=None,
+        default='2018-01-01 00:00:00',
         validator=validator.String(
             min_len=0, 
             max_len=8192, 

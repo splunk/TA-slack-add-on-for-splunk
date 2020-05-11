@@ -30,10 +30,11 @@ The configuration steps are common for `on-prem` and `cloud`. Please follow the 
 4. Enter the following details:
   - **Name** (_required_): Provide a unique name for the input.
   - **Interval** (_required_): Provide a number in seconds for the query interval.
-  - **Index** (_required_): Select the index from the dropdown list.
-  - **Start Time** (_required_): Enter the time from which to begin querying, in the format `yyyy-mm-dd hh:mm:ss`
-  - **Access Token** (_required_): Follow the instructions below to generate the Access Token.
+  - **Index** (_required_): Select the index from the dropdown list. Set the default index to be `slack_audit`, if using in conjuction with the [Slack Audit App for Splunk](https://splunkbase.splunk.com/app/5013/).
+  - **Start Time** (_required_): Enter the time from which to begin querying, in the format `yyyy-mm-dd hh:mm:ss`. The default has been set to `2018-01-01 00:00:00`.
+  - **Access Token** (_required_): Paste your Access Token of the format `xoxp-1234` (with scope `auditlogs:read`) if you brought your own. If not, follow the instructions below to generate your access token. 
 5. Click on `Add` to save the input.
+6. To check for any logs or errors, navigate to the `Search` tab and enter the below search `index=_internal  source="*ta_slack_add_on_for_splunk_slack_audit_logs.log"`.
 
 ## Access Token Generation - Authentication Step
 1. Click on the `Add to Slack` button to initiate the Authentication flow.
