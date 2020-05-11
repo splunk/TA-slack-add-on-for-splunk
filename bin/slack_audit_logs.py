@@ -47,7 +47,7 @@ class ModInputslack_audit_logs(modinput_wrapper.base_modinput.BaseModInput):
         For other input types, arguments should be get from input_module. Defining new input types could be easier.
         """
         scheme.add_argument(smi.Argument("start_time", title="Start Time",
-                                         description="Enter the start time in the format yyyy-mm-dd hh:mm:ss",
+                                         description="Enter the start time in the format yyyy-mm-dd hh:mm:ss (24-hour format)",
                                          required_on_create=True,
                                          required_on_edit=False))
         scheme.add_argument(smi.Argument("access_token", title="Access Token",

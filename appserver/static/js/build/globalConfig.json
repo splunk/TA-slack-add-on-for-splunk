@@ -263,9 +263,10 @@
                         {
                             "field": "start_time",
                             "label": "Start Time",
-                            "help": "Enter the start time in the format yyyy-mm-dd hh:mm:ss",
+                            "help": "Enter the start time in the format yyyy-mm-dd hh:mm:ss (24-hour format)",
                             "required": true,
                             "type": "text",
+                            "defaultValue": "2018-01-01 00:00:00",
                             "validators": [
                                 {
                                     "type": "string",
