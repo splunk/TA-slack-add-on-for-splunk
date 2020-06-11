@@ -15,13 +15,29 @@ def validate_input(helper, definition):
     """Implement your own validation logic to validate the input stanza configurations"""
     # This example accesses the modular input variable
     # global_account = definition.parameters.get('global_account', None)
+
     start_time = definition.parameters.get('start_time', None)
+    interval = definition.parameters.get('interval', None)
+
     try:
         datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
         helper.log_info("Start time valid")
     except ValueError:
         raise ValueError(
             "Incorrect data format, should be YYYY-MM-DD HH:MM:SS")
+
+    """
+    If start date was entered for a year ago, then check the interval provided.
+    For a time that long ago, the suggested interval should be atleast 24 hours.
+    """
+    start_time = datetime.datetime.strptime(
+        start_time, '%Y-%m-%d %H:%M:%S')
+    now = datetime.datetime.now()
+    difference_in_days = (now - start_time).days
+    if difference_in_days >= 365:
+        if int(interval) < 86400:
+            raise ValueError(
+                "Interval should be 86400 or more for a start time that looks back past one year.")
 
 
 def validate_access_token(helper, access_token, INPUT_STANZA_NAME):
@@ -141,10 +157,21 @@ def get_logs(helper, ew, epoch_time, opt_access_token, INPUT_STANZA_NAME, check_
         # Handling Pagination
         next_cursor = auditlogs['response_metadata']['next_cursor']
         while next_cursor:
-            base_url = base_url + "&cursor=" + next_cursor
-            r = make_request(helper, base_url, epoch_time,
-                             opt_access_token, INPUT_STANZA_NAME)
+            next_url = base_url + "&cursor=" + next_cursor
             try:
+                r = make_request(helper, next_url, epoch_time,
+                                 opt_access_token, INPUT_STANZA_NAME)
+                # Handle Rate limit. If 429 is received, retry after 60 seconds.
+                if r.status_code == 429:
+                    helper.log_info("{} - Status code for the URL endpoint {} is {}".format(
+                        INPUT_STANZA_NAME, next_url, str(r.status_code)))
+                    helper.log_info("{} - Rate limit was reached. Sleeping until {} seconds before retrying.".format(
+                        INPUT_STANZA_NAME, str(r.headers['retry-after'])))
+                    time.sleep(int(r.headers['retry-after']))
+                    helper.log_info("{} - Retrying after sleeping. URL : {}".format(
+                        INPUT_STANZA_NAME, next_url))
+                    r = make_request(helper, next_url, epoch_time,
+                                     opt_access_token, INPUT_STANZA_NAME)
                 r.raise_for_status()
                 auditlogs = json.loads(r.text)
                 next_cursor = auditlogs['response_metadata']['next_cursor']
