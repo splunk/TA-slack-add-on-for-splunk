@@ -51,8 +51,8 @@ def validate_access_token(helper, access_token, INPUT_STANZA_NAME):
         }
         response = json.loads(requests.get(
             validate_access_token_url, headers=header, proxies=get_proxy(helper)).text)
-        helper.log_info(
-            "{} - Response : {}".format(INPUT_STANZA_NAME, response))
+        # helper.log_info(
+        #     "{} - Response : {}".format(INPUT_STANZA_NAME, response))
         if response["ok"]:
             helper.log_info(
                 "{} - Access Token Valid".format(INPUT_STANZA_NAME))
