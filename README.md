@@ -17,7 +17,7 @@ Learn more about [Monitoring with the Audit Logs API](https://api.slack.com/ente
 This application can be installed an On-Prem or Cloud deployments of Splunk.
 
 ##### Installation Steps for `on-prem`
-Install the TA on one of the Heavy Forwarder(s).
+Install the TA on one of the Heavy Forwarder(s). Ensure to copy over eventtypes.conf, props.conf and tags.conf over to your search head to make sure field aliases, event types and tags for data model mapping comes through.
 
 ##### Installation Steps for `cloud`
 Create a support ticket with `APP-CERT` reference to get the app installed on a Cloud instance *OR* follow the cloud-ops recommended set of actions to install non-published applications.
@@ -25,16 +25,21 @@ Create a support ticket with `APP-CERT` reference to get the app installed on a 
 #### Configuration steps
 The configuration steps are common for `on-prem` and `cloud`. Please follow the following steps in order:
 1. Open the Web UI for the Heavy Forwarder (or IDM).
-2. Navigate to the Splunk Add on for Slack from the `Manage Apps` Section.
-3. Click on `Create New Input` button on the top right corner.
-4. Enter the following details:
+2. Navigate to the Splunk Add on for Slack from the `Manage Apps` Section. Be sure not to configure the inputs from the `Data Inputs` section of Splunk, as this could lead to some unexpected failures.
+3. Navigate to the `Configuration` page of the Add-on and click on the `Add` button.
+4. Enter a name in the `Slack Account name` textbox. 
+5. Click on the `Add to Slack` button to generate your Access Token, beginning with `xoxp` (with scope `auditlogs:read`). Follow the instructions below to generate this. If you brought your own. paste the Access Token here.
+6. Click on `Add` to save this configuration.
+7. Navigate to the `Inputs` tab.
+8. Click on `Create New Input` button on the top right corner.
+9. Enter the following details:
   - **Name** (_required_): Provide a unique name for the input.
   - **Interval** (_required_): Provide a number in seconds for the query interval.
   - **Index** (_required_): Select the index from the dropdown list. Set the default index to be `slack_audit`, if using in conjuction with the [Slack Audit App for Splunk](https://splunkbase.splunk.com/app/5013/).
   - **Start Time** (_required_): Enter the time from which to begin querying, in the format `yyyy-mm-dd hh:mm:ss`. The default has been set to `2018-01-01 00:00:00`.
-  - **Access Token** (_required_): Paste your Access Token of the format `xoxp-1234` (with scope `auditlogs:read`) if you brought your own. If not, follow the instructions below to generate your access token. 
-5. Click on `Add` to save the input.
-6. To check for any logs or errors, navigate to the `Search` tab and enter the below search `index=_internal  source="*ta_slack_add_on_for_splunk_*.log"`.
+  - **Enterprise Slack Account** (_required_): Select the Account configured on Step 6.
+10. Click on `Add` to save the input.
+11. To check for any logs or errors, navigate to the `Search` tab and enter the below search `index=_internal  source="*ta_slack_add_on_for_splunk_*.log"`.
 
 ## Access Token Generation - Authentication Step
 1. Click on the `Add to Slack` button to initiate the Authentication flow.
@@ -45,3 +50,10 @@ The configuration steps are common for `on-prem` and `cloud`. Please follow the 
 6. The access token should now be generated. On the `Access Token Generated` page, click on the `Copy Access Token` button to copy the token to your clipboard and close the pop up window.
 7. Manually paste the Access token into the `Access Token` text box of your Input configuration page. 
 8. The Access token should be about 79-80 characters long. If the character length of the pasted token isn't roughly the same size, re-initiate the authentication process to generate the token from Step 1.
+
+#### Pre-requisites, FAQ and Troubleshooting
+1. Initially, the sheer volume of audit logs could be large. 
+2. The checkpoints used in the add-on reside in the KV store. Ensure sufficient permissions and access to the KV Store.
+3. If a run of the add-on stopped for any reason, a checkpoint for each input will be stored, with the name ending with `_last_accessed_url`. This is an indication of an error that must have occurred in the previous run. The input can be restarted (Disable the input first and then enable it) after the cause of failure has been fixed, so it picks up the run from the recorded last successful run.
+4. If using in conjuction with the [Slack Audit App for Splunk](https://splunkbase.splunk.com/app/5013/), ensure the target index is configured as `slack_audit`, so that the dashboards on the app populate automatically.
+5. Ensure not to configure the inputs from the `Data Inputs` section of Splunk, as this could lead to some unexpected failures.
