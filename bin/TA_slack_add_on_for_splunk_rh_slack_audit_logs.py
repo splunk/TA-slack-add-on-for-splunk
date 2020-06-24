@@ -44,14 +44,11 @@ fields = [
         )
     ), 
     field.RestField(
-        'access_token',
+        'access_token_global_account',
         required=True,
-        encrypted=True,
+        encrypted=False,
         default=None,
-        validator=validator.String(
-            min_len=0, 
-            max_len=8192, 
-        )
+        validator=None
     ), 
 
     field.RestField(

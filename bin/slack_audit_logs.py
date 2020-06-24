@@ -50,8 +50,8 @@ class ModInputslack_audit_logs(modinput_wrapper.base_modinput.BaseModInput):
                                          description="Enter the start time in the format yyyy-mm-dd hh:mm:ss (24-hour format)",
                                          required_on_create=True,
                                          required_on_edit=False))
-        scheme.add_argument(smi.Argument("access_token", title="Access Token",
-                                         description="Generate & Paste Access Token https://slack.com/oauth/v2/authorize?client_id=1016219254245.1020659582432&scope=incoming-webhook&user_scope=auditlogs:read",
+        scheme.add_argument(smi.Argument("access_token_global_account", title="Enterprise Slack Account",
+                                         description="Select the Enterprise Grid Slack Account",
                                          required_on_create=True,
                                          required_on_edit=False))
         return scheme
@@ -69,6 +69,7 @@ class ModInputslack_audit_logs(modinput_wrapper.base_modinput.BaseModInput):
 
     def get_account_fields(self):
         account_fields = []
+        account_fields.append("access_token_global_account")
         return account_fields
 
     def get_checkbox_fields(self):
