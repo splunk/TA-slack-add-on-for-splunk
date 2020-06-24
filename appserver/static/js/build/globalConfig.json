@@ -2,7 +2,7 @@
     "meta": {
         "name": "TA-slack-add-on-for-splunk",
         "displayName": "Slack Add-on for Splunk",
-        "version": "1.0.2",
+        "version": "1.0.7",
         "apiVersion": "3.0.0",
         "restRoot": "TA_slack_add_on_for_splunk"
     },
@@ -11,6 +11,53 @@
             "title": "Configuration",
             "description": "Set up your add-on",
             "tabs": [
+                {
+                    "name": "account",
+                    "title": "Account",
+                    "table": {
+                        "header": [
+                            {
+                                "field": "name",
+                                "label": "Slack Account name"
+                            },
+                            {
+                                "field": "password",
+                                "label": "Access Token"
+                            }
+                        ],
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Slack Account name",
+                            "type": "text",
+                            "required": true,
+                            "help": "Enter a unique name for this account.",
+                            "validators": []
+                        },
+                        {
+                            "field": "password",
+                            "label": "Access Token",
+                            "type": "text",
+                            "encrypted": true,
+                            "required": true,
+                            "help": "Generate & Paste Access Token https://slack.com/oauth/v2/authorize?client_id=1016219254245.1020659582432&scope=incoming-webhook&user_scope=auditlogs:read",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 70,
+                                    "maxLength": 8192,
+                                    "errorMsg": "Length of Access Token should be between 70 and 8192. Please Re-generate the token."
+                                }
+                            ]
+                        }
+                    ]
+                },
                 {
                     "name": "proxy",
                     "title": "Proxy",
@@ -190,8 +237,8 @@
                         "label": "Start Time"
                     },
                     {
-                        "field": "access_token",
-                        "label": "Access Token"
+                        "field": "access_token_global_account",
+                        "label": "Enterprise Slack Account"
                     }
                 ],
                 "actions": [
@@ -278,20 +325,14 @@
                             ]
                         },
                         {
-                            "field": "access_token",
-                            "label": "Access Token",
-                            "help": "Generate & Paste Access Token https://slack.com/oauth/v2/authorize?client_id=1016219254245.1020659582432&scope=incoming-webhook&user_scope=auditlogs:read",
+                            "field": "access_token_global_account",
+                            "label": "Enterprise Slack Account",
+                            "help": "Select the Enterprise Grid Slack Account",
                             "required": true,
-                            "type": "text",
-                            "encrypted": true,
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "minLength": 0,
-                                    "maxLength": 8192,
-                                    "errorMsg": "Max length of password is 8192"
-                                }
-                            ]
+                            "type": "singleSelect",
+                            "options": {
+                                "referenceName": "account"
+                            }
                         }
                     ]
                 }
