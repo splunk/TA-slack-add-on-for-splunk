@@ -2,7 +2,7 @@
     "meta": {
         "name": "TA-slack-add-on-for-splunk",
         "displayName": "Slack Add-on for Splunk",
-        "version": "1.0.7",
+        "version": "1.0.9",
         "apiVersion": "3.0.0",
         "restRoot": "TA_slack_add_on_for_splunk"
     },
