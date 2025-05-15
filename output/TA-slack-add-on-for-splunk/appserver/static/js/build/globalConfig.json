@@ -79,7 +79,8 @@
                                 "oauth_popup_height": 600,
                                 "oauth_timeout": 180,
                                 "auth_code_endpoint": "/oauth/v2/authorize?scope=chat:write&user_scope=auditlogs:read&",
-                                "access_token_endpoint": "/api/oauth.v2.access"
+                                "access_token_endpoint": "/api/oauth.v2.access",
+                                "oauth_state_enabled": false
                             }
                         }
                     ],
@@ -212,19 +213,10 @@
                                     "type": "regex",
                                     "errorMsg": "Interval must be either a non-negative number, CRON interval or -1.",
                                     "pattern": "^((?:-1|\\d+(?:\\.\\d+)?)|(([\\*\\d{1,2}\\,\\-\\/]+\\s){4}[\\*\\d{1,2}\\,\\-\\/]+))$"
-                                },
-                                {
-                                    "type": "number",
-                                    "range": [
-                                        10,
-                                        301
-                                    ],
-                                    "errorMsg": "Interval must be between 10 and 301"
                                 }
                             ],
                             "help": "Time interval of the data input, in seconds.",
-                            "required": true,
-                            "defaultValue": "300"
+                            "required": true
                         },
                         {
                             "type": "singleSelect",
@@ -251,12 +243,27 @@
                             ]
                         },
                         {
+                            "field": "start_time",
+                            "label": "Start Time",
+                            "help": "Enter the start time in the format yyyy-mm-dd hh:mm:ss (24-hour format)",
+                            "required": true,
+                            "type": "text",
+                            "defaultValue": "2025-01-01 00:00:00",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$",
+                                    "errorMsg": "Start time must be in the format YYYY-MM-DD HH:MM:SS (example:2025-01-01 00:00:00)"
+                                }
+                            ]
+                        },
+                        {
                             "type": "singleSelect",
-                            "label": "Account to use",
+                            "label": "Enterprise Slack Account",
                             "options": {
                                 "referenceName": "account"
                             },
-                            "help": "Account to use for this input.",
+                            "help": "Select the Enterprise Grid Slack Account.",
                             "field": "account",
                             "required": true,
                             "validators": [
@@ -269,8 +276,8 @@
                             ]
                         }
                     ],
-                    "inputHelperModule": "slack_audit_logs_helper",
-                    "title": "slack_audit_logs"
+                    "title": "slack_audit_logs",
+                    "template": "input_with_helper"
                 }
             ],
             "title": "Inputs",
@@ -341,6 +348,6 @@
             "light",
             "dark"
         ],
-        "_uccVersion": "5.64.0"
+        "_uccVersion": "5.65.0"
     }
 }
