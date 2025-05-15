@@ -90,7 +90,6 @@ class ta_slack_add_on_for_splunk_rh_oauth2_token(admin.MConfigHandler):
 
             # Create payload from the arguments received
             grant_type = self.callerArgs.data['grant_type'][0]
-            logger.info(f"self.callerArgs.data: {self.callerArgs.data}")
 
             payload = {
                 'grant_type': self.callerArgs.data['grant_type'][0],

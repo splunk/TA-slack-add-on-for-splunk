@@ -79,100 +79,18 @@
                                 "oauth_popup_height": 600,
                                 "oauth_timeout": 180,
                                 "auth_code_endpoint": "/oauth/v2/authorize?scope=chat:write&user_scope=auditlogs:read&",
-                                "access_token_endpoint": "/api/oauth.v2.access"
+                                "access_token_endpoint": "/api/oauth.v2.access",
+                                "oauth_state_enabled": false
                             }
                         }
                     ],
                     "title": "Accounts"
                 },
                 {
-                    "name": "logging",
-                    "title": "Logging",
-                    "entity": [
-                        {
-                            "type": "singleSelect",
-                            "label": "Log level",
-                            "options": {
-                                "disableSearch": true,
-                                "autoCompleteFields": [
-                                    {
-                                        "value": "DEBUG",
-                                        "label": "DEBUG"
-                                    },
-                                    {
-                                        "value": "INFO",
-                                        "label": "INFO"
-                                    },
-                                    {
-                                        "value": "WARNING",
-                                        "label": "WARNING"
-                                    },
-                                    {
-                                        "value": "ERROR",
-                                        "label": "ERROR"
-                                    },
-                                    {
-                                        "value": "CRITICAL",
-                                        "label": "CRITICAL"
-                                    }
-                                ]
-                            },
-                            "defaultValue": "INFO",
-                            "field": "loglevel",
-                            "required": true,
-                            "validators": [
-                                {
-                                    "type": "regex",
-                                    "errorMsg": "Log level must be one of: DEBUG, INFO, WARNING, ERROR, CRITICAL",
-                                    "pattern": "^DEBUG|INFO|WARNING|ERROR|CRITICAL$"
-                                }
-                            ]
-                        }
-                    ]
+                    "type": "loggingTab"
                 },
                 {
-                    "name": "proxy",
-                    "title": "Proxy",
-                    "entity": [
-                        {
-                            "type": "checkbox",
-                            "label": "Enable",
-                            "field": "proxy_enabled"
-                        },
-                        {
-                            "type": "text",
-                            "label": "Host",
-                            "validators": [
-                                {
-                                    "type": "string",
-                                    "errorMsg": "Max host length is 4096",
-                                    "minLength": 0,
-                                    "maxLength": 4096
-                                },
-                                {
-                                    "type": "regex",
-                                    "errorMsg": "Proxy Host should not have special characters",
-                                    "pattern": "^[a-zA-Z]\\w*$"
-                                }
-                            ],
-                            "field": "proxy_url"
-                        },
-                        {
-                            "type": "text",
-                            "label": "Port",
-                            "validators": [
-                                {
-                                    "type": "number",
-                                    "range": [
-                                        1,
-                                        65535
-                                    ],
-                                    "isInteger": true
-                                }
-                            ],
-                            "field": "proxy_port"
-                        }
-                    ]
+                    "type": "proxyTab"
                 }
             ],
             "title": "Configuration",
@@ -207,24 +125,15 @@
                             "type": "text",
                             "field": "interval",
                             "label": "Interval",
+                            "help": "Time interval of the data input, in seconds.",
+                            "required": true,
                             "validators": [
                                 {
                                     "type": "regex",
-                                    "errorMsg": "Interval must be either a non-negative number, CRON interval or -1.",
-                                    "pattern": "^((?:-1|\\d+(?:\\.\\d+)?)|(([\\*\\d{1,2}\\,\\-\\/]+\\s){4}[\\*\\d{1,2}\\,\\-\\/]+))$"
-                                },
-                                {
-                                    "type": "number",
-                                    "range": [
-                                        10,
-                                        301
-                                    ],
-                                    "errorMsg": "Interval must be between 10 and 301"
+                                    "pattern": "^\\-[1-9]\\d*$|^\\d*$",
+                                    "errorMsg": "Interval must be an integer."
                                 }
-                            ],
-                            "help": "Time interval of the data input, in seconds.",
-                            "required": true,
-                            "defaultValue": "300"
+                            ]
                         },
                         {
                             "type": "singleSelect",
@@ -251,12 +160,27 @@
                             ]
                         },
                         {
+                            "field": "start_time",
+                            "label": "Start Time",
+                            "help": "Enter the start time in the format yyyy-mm-dd hh:mm:ss (24-hour format)",
+                            "required": true,
+                            "type": "text",
+                            "defaultValue": "2025-01-01 00:00:00",
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$",
+                                    "errorMsg": "Start time must be in the format YYYY-MM-DD HH:MM:SS (example:2025-01-01 00:00:00)"
+                                }
+                            ]
+                        },
+                        {
                             "type": "singleSelect",
-                            "label": "Account to use",
+                            "label": "Enterprise Slack Account",
                             "options": {
                                 "referenceName": "account"
                             },
-                            "help": "Account to use for this input.",
+                            "help": "Select the Enterprise Grid Slack Account.",
                             "field": "account",
                             "required": true,
                             "validators": [
@@ -269,8 +193,8 @@
                             ]
                         }
                     ],
-                    "inputHelperModule": "slack_audit_logs_helper",
-                    "title": "slack_audit_logs"
+                    "title": "slack_audit_logs",
+                    "template": "input_with_helper"
                 }
             ],
             "title": "Inputs",
