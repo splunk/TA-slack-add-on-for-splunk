@@ -37,15 +37,9 @@ fields = [
         'interval',
         required=True,
         encrypted=False,
-        default='300',
-        validator=validator.AllOf(
-            validator.Pattern(
-                regex=r"""^((?:-1|\d+(?:\.\d+)?)|(([\*\d{1,2}\,\-\/]+\s){4}[\*\d{1,2}\,\-\/]+))$""", 
-            ), 
-            validator.Number(
-                max_val=301, 
-                min_val=10, 
-            )
+        default=None,
+        validator=validator.Pattern(
+            regex=r"""^((?:-1|\d+(?:\.\d+)?)|(([\*\d{1,2}\,\-\/]+\s){4}[\*\d{1,2}\,\-\/]+))$""", 
         )
     ), 
     field.RestField(
@@ -61,6 +55,15 @@ fields = [
                 max_len=80, 
                 min_len=1, 
             )
+        )
+    ), 
+    field.RestField(
+        'start_time',
+        required=True,
+        encrypted=False,
+        default='2025-01-01 00:00:00',
+        validator=validator.Pattern(
+            regex=r"""^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$""", 
         )
     ), 
     field.RestField(
