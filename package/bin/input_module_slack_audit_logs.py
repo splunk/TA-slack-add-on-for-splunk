@@ -96,6 +96,7 @@ def make_request(helper, base_url, opt_access_token, INPUT_STANZA_NAME, epoch_ti
               'Accept': 'application/json',
               'Authorization': 'Bearer ' + opt_access_token
               }
+
     helper.log_info(
         "{} : make_request() - Request sent to url : {}".format(INPUT_STANZA_NAME, base_url))
     try:
@@ -592,11 +593,10 @@ def collect_events(helper, ew):
     helper.log_info(
         "{} : collect_events() - Slack Audit addon start execution".format(INPUT_STANZA_NAME))
 
-    global_account = helper.get_arg(
-        'access_token_global_account')  # Retrieve Global Account
+    global_account = helper.get_arg('account')  # Retrieve Global Account
 
     # Retrieve Global account access token
-    opt_access_token = global_account['password']
+    opt_access_token = global_account['access_token']
 
     validate_access_token(helper, opt_access_token,
                           INPUT_STANZA_NAME)  # Validate Access Token

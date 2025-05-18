@@ -63,7 +63,7 @@ class ModInputSLACK_AUDIT_LOGS(base_mi.BaseModInput):
 
 
     def get_app_name(self):
-        return app_name
+        return "TA-slack-add-on-for-splunk"
 
     def collect_events(helper, ew):
         """write out the events"""
