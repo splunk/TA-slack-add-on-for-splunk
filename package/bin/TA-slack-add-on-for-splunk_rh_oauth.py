@@ -131,7 +131,10 @@ class ta_slack_add_on_for_splunk_rh_oauth2_token(admin.MConfigHandler):
             # Check for any errors in response. If no error then add the content values in confInfo
             if resp.status == 200:
                 for key, val in content.items():
-                    confInfo['token'][key] = val
+                    # Retrieve the User OAuth token (NOT the Bot token)
+                    if key == 'authed_user':
+                        for k, v in val.items():
+                            confInfo['token'][k] = v
             else:
                 # Else add the error message in the confinfo
                 confInfo['token']['error'] = content['error_description']
