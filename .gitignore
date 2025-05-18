@@ -138,5 +138,6 @@ dmypy.json
 *.tgz
 *.tar.gz
 
+output/
 
 
