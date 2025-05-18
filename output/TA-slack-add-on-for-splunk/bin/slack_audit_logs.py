@@ -14,6 +14,8 @@ from solnlib import log
 from solnlib.modular_input import checkpointer
 from splunktaucclib.modinput_wrapper import base_modinput  as base_mi 
 
+import input_module_slack_audit_logs as input_module
+
 bin_dir  = os.path.basename(__file__)
 app_name = os.path.basename(os.path.dirname(os.getcwd()))
 
@@ -57,55 +59,15 @@ class ModInputSLACK_AUDIT_LOGS(base_mi.BaseModInput):
 
     def validate_input(self, definition):
         """validate the input stanza"""
-        """Implement your own validation logic to validate the input stanza configurations"""
-        pass
+        input_module.validate_input(self, definition)
+
 
     def get_app_name(self):
-        return "app_name" 
+        return "TA-slack-add-on-for-splunk"
 
     def collect_events(helper, ew):
-
-        #   Get the CloudConnect json file .cc.json
-        script_name = __file__
-        script_name = script_name[:-3]
-        config_file_name = '.'.join([script_name, 'cc.json'])
-
-        # Extract the url, method and headers for this input from the .cc.json file
-        with open(config_file_name) as f:
-            data = json.load(f)
-
-        url    = data["requests"][0]["request"]["url"]
-        method = data["requests"][0]["request"]["method"]
-        headers= json.dumps(data["requests"][0]["request"]["headers"])
-
-        # insert input values into the url and/or header (helper class handles credential store)
-        opt_start_time = helper.get_arg('start_time')
-        url = url.replace("{{"+'start_time'+"}}",opt_start_time)
-        headers = headers.replace("{{"+'start_time'+"}}",opt_start_time)
-        
-        opt_account = helper.get_arg('account')
-        url = url.replace("{{"+'account'+"}}",opt_account)
-        headers = headers.replace("{{"+'account'+"}}",opt_account)
-        
-        # Now execute the api call
-        headers=json.loads(headers)
-        response = helper.send_http_request(url, method, headers=headers,  parameters="", payload=None, cookies=None, verify=True, cert=None, timeout=None, use_proxy=True)
-
-        try:
-            response.raise_for_status()
-            
-        except:
-            helper.log_error (response.text)
-        
-        if response.status_code == 200:
-            try:
-                data = json.dumps(response.json())
-                sourcetype=  "slack_audit_logs"  + "://" + helper.get_input_stanza_names()
-                event = helper.new_event(source="slack_audit_logs", index=helper.get_output_index(), sourcetype=sourcetype , data=data)
-                ew.write_event(event)
-            except:
-                helper.log_info("Error inserting event")
-
+        """write out the events"""
+        input_module.collect_events(helper, ew)
 
     def get_account_fields(self):
         account_fields = []
