@@ -56,7 +56,7 @@ The configuration steps are common for `on-prem` and `cloud`. Please follow the 
 4. Enter the following details:
     - **Account Name**: Enter a name in the `Account Name` textbox.
     - **Client ID**: Enter the Client ID that you obtained above in the `Client ID` textbox.
-    - **Client Secret**: Enter the Client Secret that you obtained above in the `Client ID` textbox.
+    - **Client Secret**: Enter the Client Secret that you obtained above in the `Client Secret` textbox.
     - **Redirect url**: The Redirect URI will auto show up.
     - **Endpoint**: Enter the Slack API Base Endpoint. The default one is `slack.com`.
 5. Click on the `Add` button.
