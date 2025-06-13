@@ -44,7 +44,17 @@
                             "type": "oauth",
                             "options": {
                                 "auth_type": [
+                                    "basic",
                                     "oauth"
+                                ],
+                                "basic": [
+                                    {
+                                        "oauth_field": "oauth_token",
+                                        "label": "User OAuth Token",
+                                        "field": "oauth_token",
+                                        "encrypted": true,
+                                        "help": "Enter User OAuth Token of your Slack App."
+                                    }
                                 ],
                                 "oauth": [
                                     {
