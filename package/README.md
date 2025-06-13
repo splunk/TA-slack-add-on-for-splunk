@@ -14,7 +14,7 @@ The idea is to give Enterprise Grid organization owners the ability to query use
 Learn more about [Monitoring with the Audit Logs API](https://api.slack.com/enterprise/audit-logs)
 
 #### Installation and Configuration Steps
-This application can be installed an On-Prem or Cloud deployments of Splunk.
+This application can be installed on On-Prem or Cloud deployments of Splunk.
 
 ##### Installation Steps for `on-prem`
 Install the TA on one of the Heavy Forwarder(s). Ensure to copy over eventtypes.conf, props.conf and tags.conf over to your search head to make sure field aliases, event types and tags for data model mapping comes through.
@@ -29,21 +29,33 @@ The **Slack Add-on for Splunk** supports OAuth2 Authentication. Therefore,  crea
 
 Please follow the following steps to create a dedicated Slack App for this Add-on. Further documentation can be found [here](https://api.slack.com/admins/audit-logs#install).
 
+The Slack Add-on for Splunk supports two authentication ways
+- **Basic Authentication**:  Requires the User OAuth Token from your Slack App.
+- **OAuth 2.o - Authorization Code Grant Type**:  Requires the Client Id & Client Secret from your Slack App.
+
+The process of creating a Slack App for both authentication types is nearly identical. Once the Slack App setup is complete, you will obtain the necessary credentials for authentication.
+
 1. [**Create a Slack app**](https://api.slack.com/apps).
-2. **Add Redirect URL**.
+2. **Enable Private distribution** - This step will allow installing the App to organization.
+    - In the app's settings, select Manage Distribution from the left navigation. Under the section titled **Share Your App with Other Workspaces on Your Grid**.
+    - Click `Enable Org-Wide App Installation > Opt into Org level Apps > Enable Org-Readiness`.
+    - Once done, the Private distribution has been successfully enabled for your app.
+3. **Add Redirect URL** (Only for OAuth 2.o - Authorization Code Grant Type)
+
+    **Note**: You can skip this step if you plan to use Basic Authentication with a User OAuth Token
     - In the app's settings, select OAuth & Permissions from the left navigation. Scroll down to the section titled **Redirect URLs**.
-    - Open **Slack Add-on for Splunk** in Splunk. Go to `Configuration > Account > Add`. The Redirect URI will show up in the `Redirect url` field.
+    - Open **Slack Add-on for Splunk** in Splunk. Go to `Configuration > Account > Add > Auth Type > OAuth 2.0 - Authorization Code Grant Type`. The Redirect URI will show up in the `Redirect url` field.
     - Click Add New Redirect URL. Copy & Paste the URL that was obtained from the last step here.
     - Click the Save URLs button.
-3. **Scopes** 
+4. **Scopes**
     - In the app's settings, select OAuth & Permissions from the left navigation. Scroll down to the section titled **Scopes**. 
     - Click Add an OAuth Scope under User Token Scopes. Add the `auditlogs:read` scope.
     - Click Add an OAuth Scope under Bot Token Scopes. Add the `chat:write` scope.
-4. **Enable Private distribution**
-    - In the app's settings, select Manage Distribution from the left navigation. Under the section titled **Share Your App with Other Workspaces on Your Grid**.
-    - Click `Enable Org-Wide App Installation > Opt into Org level Apps > Enable Org-Readiness`. 
-    - Once done, the Private distribution has been successfully enabled for your app.
-5. **Client ID & Client Secret**
+    - Scroll up to the OAuth Tokens section, click `Install to Organization`.
+    - Click `Allow` in the pop-up window.
+5. **User OAuth Token** (Only for Basic Authorization)
+    - Under the OAuth Token Section, the User OAuth Token is ready to use.
+6. **Client ID & Client Secret** (Only for OAuth 2.o - Authorization Code Grant Type)
     - In the app's settings, select Basic Information from the left navigation.
     - The Client ID & Client Secret are ready to use.
 
@@ -53,16 +65,30 @@ The configuration steps are common for `on-prem` and `cloud`. Please follow the 
 1. Open the Web UI for the Heavy Forwarder (or IDM).
 2. Navigate to the Splunk Add on for Slack from the `Manage Apps` Section. Be sure not to configure the inputs from the `Data Inputs` section of Splunk, as this could lead to some unexpected failures.
 3. Navigate to the `Configuration` page of the Add-on and click on the `Add` button.
-4. Enter the following details:
+4. Select the Auth Type.
+
+#### Basic Authentication
+- Select Basic Authentication.
+- Enter the following details:
     - **Account Name**: Enter a name in the `Account Name` textbox.
     - **Client ID**: Enter the Client ID that you obtained above in the `Client ID` textbox.
     - **Client Secret**: Enter the Client Secret that you obtained above in the `Client Secret` textbox.
     - **Redirect url**: The Redirect URI will auto show up.
     - **Endpoint**: Enter the Slack API Base Endpoint. The default one is `slack.com`.
-5. Click on the `Add` button.
-6. After clicking the Add button, you will be redirected to the Slack Sign in page. Please Sign in with your **organization's Enterprise Grid Slack account**. 
-7. After successfully signing in, you will be redirected to a page where you will be asked if you want to grant the add-on the required permissions. Please click on the Allow button.
-8. The account will be successfully added and is ready to use.
+- Click the `Add` button. The account will be successfully added and is ready to use.
+
+#### OAuth 2.o - Authorization Code Grant Type
+- Select OAuth 2.0 - Authorization Code Grant Type.
+- Enter the following details:
+    - **Account Name**: Enter a name in the Account Name textbox.
+    - **Client ID**: Enter the Client ID that you obtained above in the Client ID textbox.
+    - **Client Secret**: Enter the Client Secret that you obtained above in the Client Secret textbox.
+    - **Redirect url**: The Redirect URI will auto show up.
+    - **Endpoint**: Enter the Slack API Base Endpoint. The default one is slack.com.
+- Click the `Add` button.
+- After clicking the Add button, you will be redirected to the Slack Sign in page. Please Sign in with your **organization's Enterprise Grid Slack account**.
+- After successfully signing in, you will be redirected to a page where you will be asked if you want to grant the add-on the required permissions. Please click on the Allow button.
+- The account will be successfully added and is ready to use.
 
 #### Create Input
 1. Navigate to the `Inputs` tab.
