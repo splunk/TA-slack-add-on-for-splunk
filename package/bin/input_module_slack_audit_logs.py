@@ -596,7 +596,7 @@ def collect_events(helper, ew):
     global_account = helper.get_arg('account')  # Retrieve Global Account
 
     # Retrieve Global account access token
-    opt_access_token = global_account['access_token']
+    opt_access_token = global_account['access_token'] if global_account['auth_type'] == 'oauth' else global_account['oauth_token']
 
     validate_access_token(helper, opt_access_token,
                           INPUT_STANZA_NAME)  # Validate Access Token
