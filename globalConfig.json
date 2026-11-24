@@ -49,7 +49,6 @@
                                 ],
                                 "basic": [
                                     {
-                                        "oauth_field": "oauth_token",
                                         "label": "User OAuth Token",
                                         "field": "oauth_token",
                                         "encrypted": true,
@@ -58,26 +57,22 @@
                                 ],
                                 "oauth": [
                                     {
-                                        "oauth_field": "client_id",
                                         "label": "Client Id",
                                         "field": "client_id",
                                         "help": "Enter Client Id."
                                     },
                                     {
-                                        "oauth_field": "client_secret",
                                         "label": "Client Secret",
                                         "field": "client_secret",
                                         "encrypted": true,
                                         "help": "Enter Client Secret."
                                     },
                                     {
-                                        "oauth_field": "redirect_url",
                                         "label": "Redirect url",
                                         "field": "redirect_url",
                                         "help": "Please add this redirect URL in your app."
                                     },
                                     {
-                                        "oauth_field": "endpoint",
                                         "label": "Endpoint",
                                         "field": "endpoint",
                                         "help": "Enter Endpoint",
@@ -268,9 +263,13 @@
     "meta": {
         "name": "TA-slack-add-on-for-splunk",
         "restRoot": "TA-slack-add-on-for-splunk",
-        "version": "3.0.0",
+        "version": "3.1.0",
         "displayName": "Slack Add-on for Splunk",
-        "schemaVersion": "0.0.9",
+        "schemaVersion": "0.0.10",
+        "supportedPythonVersion": [
+            "3.9",
+            "3.13"
+        ],
         "supportedThemes": [
             "light",
             "dark"
